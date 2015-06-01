@@ -152,24 +152,16 @@ if ( ! class_exists( 'Art_Store_Public' ) ) {
 				'posts'  => -1,
 				), $atts ) );
 
-			$width = ( isset( $atts['width'] ) ) ? $atts['width'] : false;
-
-			$height = ( isset( $atts['height'] ) ) ? $atts['height'] : false;
-
-			$posts = ( isset( $atts['posts'] ) ) ? $atts['posts'] : -1;
-
-			// if either height OR width is set but not the other, set both to the same value
-			if ( $width && ! $height )
-				$height = $width;
-			if ( $height && ! $width )
-				$width = $height;
+			$width  = ( isset( $atts['width'] ) )  ? $atts['width']  : 999;
+			$height = ( isset( $atts['height'] ) ) ? $atts['height'] : 999;
+			$posts  = ( isset( $atts['posts'] ) )  ? $atts['posts']  : -1;
 
 			$art_store = art_store_works( array( 'posts_per_page' => $posts ) ); ?>
 
 			<script type="text/javascript">
 				jQuery(document).ready(function ($) {
 					$("#makeMeScrollable").smoothDivScroll({
-						mousewheelScrolling: "allDirections",
+						mousewheelScrolling: false,
 						manualContinuousScrolling: true
 					});
 				});
@@ -180,7 +172,7 @@ if ( ! class_exists( 'Art_Store_Public' ) ) {
 					<?php if ( $art_store->have_posts() ) : while ( $art_store->have_posts() ) : $art_store->the_post(); ?>
 
 						<section class="art-store-work product" id="art-store-work-<?php the_ID(); ?>">
-							<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_post_thumbnail( array( $width, $height, true ) ); ?></a>
+							<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_post_thumbnail( array( $width, $height ) ); ?></a>
 						</section>
 
 					<?php endwhile; endif; ?>
